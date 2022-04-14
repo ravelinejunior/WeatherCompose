@@ -5,6 +5,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import br.com.raveline.weathercompose.components.widgets.WeatherAppBar
 import br.com.raveline.weathercompose.data.model.WeatherListModel
@@ -22,19 +23,19 @@ fun MainScreen(
             CircularProgressIndicator()
         }
         else -> {
-            MainScaffold(weatherListModel = weatherListModel.data, navController = navController)
+            MainScaffold(weather = weatherListModel.data, navController = navController)
         }
     }
 
 }
 
 @Composable
-fun MainScaffold(weatherListModel: WeatherListModel, navController: NavController) {
+fun MainScaffold(weather: WeatherListModel, navController: NavController) {
 
     Scaffold(topBar = {
-        WeatherAppBar(title = "Lisbon, Portugal")
+        WeatherAppBar(title = "${weather.city.name},${weather.city.country}", navController = navController, elevation = 6.dp)
     }) {
-        MainContent(data = weatherListModel)
+        MainContent(data = weather)
 
     }
 
