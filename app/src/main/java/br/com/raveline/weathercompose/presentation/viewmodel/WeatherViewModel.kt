@@ -34,7 +34,7 @@ class WeatherViewModel @Inject constructor(private val repositoryImpl: WeatherRe
         loadWeather()
     }
 
-    private fun loadWeather(city: String = "Lisbon") {
+    private fun loadWeather(city: String = "Belo Horizonte") {
         getWeather(city)
     }
 

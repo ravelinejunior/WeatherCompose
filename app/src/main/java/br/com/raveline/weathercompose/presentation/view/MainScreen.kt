@@ -8,18 +8,18 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import br.com.raveline.weathercompose.R
 import br.com.raveline.weathercompose.components.widgets.WeatherAppBar
 import br.com.raveline.weathercompose.components.widgets.WeatherStateImage
 import br.com.raveline.weathercompose.data.model.WeatherListModel
 import br.com.raveline.weathercompose.presentation.viewmodel.WeatherViewModel
 import br.com.raveline.weathercompose.utils.IMAGE_URL
 import br.com.raveline.weathercompose.utils.Resource
+import br.com.raveline.weathercompose.utils.formatDate
+import br.com.raveline.weathercompose.utils.formatDecimals
 
 @Composable
 fun MainScreen(
@@ -74,7 +74,6 @@ fun MainScaffold(weather: WeatherListModel, navController: NavController) {
 
 @Composable
 fun MainContent(data: WeatherListModel) {
-    Text(text = data.city.name)
 
     val imageUrl = "$IMAGE_URL/${data.list.first().weather.first().icon}.png"
 
@@ -86,7 +85,7 @@ fun MainContent(data: WeatherListModel) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = stringResource(R.string.date_string_november_29),
+            text = formatDate(data.list.first().dt),
             style = MaterialTheme.typography.caption,
             color = MaterialTheme.colors.onSecondary,
             fontWeight = FontWeight.SemiBold,
@@ -106,12 +105,12 @@ fun MainContent(data: WeatherListModel) {
             ) {
                 WeatherStateImage(imageUrl = imageUrl)
                 Text(
-                    text = stringResource(id = R.string.degree_string_56),
+                    text = "${formatDecimals(data.list.first().temp.day)}º",
                     style = MaterialTheme.typography.h4,
                     fontWeight = FontWeight.ExtraBold
                 )
                 Text(
-                    text = stringResource(id = R.string.weather_string_snow),
+                    text = data.list.first().weather.first().main,
                     fontStyle = FontStyle.Italic
                 )
             }

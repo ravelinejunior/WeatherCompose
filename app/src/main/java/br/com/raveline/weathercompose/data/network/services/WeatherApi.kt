@@ -12,8 +12,9 @@ interface WeatherApi {
     @GET("forecast/daily")
     suspend fun getCurrentWeather(
         @Query("q") query: String,
-        @Query("units") units: String = "metrics",
+        @Query("units") units: String = "metric",
         @Query("appid") apiKey: String = GEN_API_KEY,
+        @Query("lang") language:String = "pt_br"
 
         ): Response<WeatherListModel>
 }
