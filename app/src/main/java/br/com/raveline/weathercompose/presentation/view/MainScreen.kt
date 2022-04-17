@@ -12,6 +12,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import br.com.raveline.weathercompose.components.widgets.HumidityWindPressureRow
 import br.com.raveline.weathercompose.components.widgets.WeatherAppBar
 import br.com.raveline.weathercompose.components.widgets.WeatherStateImage
 import br.com.raveline.weathercompose.data.model.WeatherListModel
@@ -86,7 +87,7 @@ fun MainContent(data: WeatherListModel) {
     ) {
         Text(
             text = formatDate(data.list.first().dt),
-            style = MaterialTheme.typography.caption,
+            style = MaterialTheme.typography.h6,
             color = MaterialTheme.colors.onSecondary,
             fontWeight = FontWeight.SemiBold,
             modifier = Modifier.padding(8.dp)
@@ -115,10 +116,13 @@ fun MainContent(data: WeatherListModel) {
                 )
             }
         }
+
+        HumidityWindPressureRow(weather = data.list.first())
     }
 
 
 }
+
 
 
 

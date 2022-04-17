@@ -7,4 +7,7 @@
     <string name="degree_string_56">56</string>
     <string name="weather_string_snow">Snow</string>
     <string name="date_string_november_29">November 29</string>
+    <string name="icon_string_humidity">Humidity Icon</string>
+    <string name="icon_string_pressure">Pressure Icon</string>
+    <string name="icon_string_wind">Wind Icon</string>
 </resources>
