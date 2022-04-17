@@ -13,6 +13,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import br.com.raveline.weathercompose.components.widgets.HumidityWindPressureRow
+import br.com.raveline.weathercompose.components.widgets.SunsetAndSunriseRow
 import br.com.raveline.weathercompose.components.widgets.WeatherAppBar
 import br.com.raveline.weathercompose.components.widgets.WeatherStateImage
 import br.com.raveline.weathercompose.data.model.WeatherListModel
@@ -118,6 +119,11 @@ fun MainContent(data: WeatherListModel) {
         }
 
         HumidityWindPressureRow(weather = data.list.first())
+
+        Divider(modifier = Modifier.padding(horizontal = 8.dp))
+
+        SunsetAndSunriseRow(weather = data.list.first())
+
     }
 
 
