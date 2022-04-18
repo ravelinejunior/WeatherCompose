@@ -1,21 +1,24 @@
 package br.com.raveline.weathercompose.presentation.view
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import br.com.raveline.weathercompose.components.widgets.HumidityWindPressureRow
-import br.com.raveline.weathercompose.components.widgets.SunsetAndSunriseRow
-import br.com.raveline.weathercompose.components.widgets.WeatherAppBar
-import br.com.raveline.weathercompose.components.widgets.WeatherStateImage
+import br.com.raveline.weathercompose.R
+import br.com.raveline.weathercompose.components.widgets.*
 import br.com.raveline.weathercompose.data.model.WeatherListModel
 import br.com.raveline.weathercompose.presentation.viewmodel.WeatherViewModel
 import br.com.raveline.weathercompose.utils.IMAGE_URL
@@ -123,6 +126,31 @@ fun MainContent(data: WeatherListModel) {
         Divider(modifier = Modifier.padding(horizontal = 8.dp))
 
         SunsetAndSunriseRow(weather = data.list.first())
+
+        Text(
+            text = stringResource(id = R.string.this_week_string),
+            style = MaterialTheme.typography.subtitle1,
+            fontWeight = FontWeight.ExtraBold,
+            modifier = Modifier.padding(16.dp)
+        )
+
+        Surface(modifier = Modifier
+            .fillMaxHeight()
+            .fillMaxWidth(),
+            color = Color(0xF7D5D5D5),
+            shape = RoundedCornerShape(size = 16.dp)
+            ) {
+                LazyColumn(
+                    modifier = Modifier.padding(2.dp),
+                    contentPadding = PaddingValues(4.dp)
+                ){
+                    items(items = data.list){ weather ->
+
+                        WeatherDetailRow(weather = weather)
+
+                    }
+                }
+        }
 
     }
 

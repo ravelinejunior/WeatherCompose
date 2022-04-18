@@ -12,4 +12,5 @@
     <string name="icon_string_wind">Wind Icon</string>
     <string name="icon_string_sunrise">Sunrise Icon</string>
     <string name="icon_string_sunset">Sunset Icon</string>
+    <string name="this_week_string">This Week Predictions</string>
 </resources>
