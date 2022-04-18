@@ -20,6 +20,7 @@ import androidx.navigation.NavController
 import br.com.raveline.weathercompose.R
 import br.com.raveline.weathercompose.components.widgets.*
 import br.com.raveline.weathercompose.data.model.WeatherListModel
+import br.com.raveline.weathercompose.presentation.navigation.WeatherScreens
 import br.com.raveline.weathercompose.presentation.viewmodel.WeatherViewModel
 import br.com.raveline.weathercompose.utils.IMAGE_URL
 import br.com.raveline.weathercompose.utils.Resource
@@ -50,7 +51,10 @@ fun MainScaffold(weather: WeatherListModel, navController: NavController) {
         WeatherAppBar(
             title = "${weather.city.name},${weather.city.country}",
             navController = navController,
-            elevation = 6.dp
+            elevation = 6.dp,
+            onAddActionClicked = {
+                    navController.navigate(WeatherScreens.SearchScreen.name)
+            }
         )
     }) {
         MainContent(data = weather)

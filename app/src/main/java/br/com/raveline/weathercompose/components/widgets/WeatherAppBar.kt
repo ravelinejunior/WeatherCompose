@@ -42,7 +42,9 @@ fun WeatherAppBar(
         backgroundColor = backgroundColor,
         actions = {
             if (isMainScreen) {
-                IconButton(onClick = { }) {
+                IconButton(onClick = {
+                    onAddActionClicked.invoke()
+                }) {
                     Icon(
                         imageVector = Icons.Default.Search,
                         contentDescription = stringResource(R.string.search_icon)
