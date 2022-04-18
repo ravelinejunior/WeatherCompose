@@ -10,10 +10,10 @@ import br.com.raveline.weathercompose.R
 import coil.compose.rememberImagePainter
 
 @Composable
-fun WeatherStateImage(imageUrl: String) {
+fun WeatherStateImage(imageUrl: String, size: Int = 80) {
     Image(
         painter = rememberImagePainter(imageUrl),
         contentDescription = stringResource(id = R.string.image_string),
-        modifier = Modifier.size(80.dp)
+        modifier = Modifier.size(size.dp)
     )
 }

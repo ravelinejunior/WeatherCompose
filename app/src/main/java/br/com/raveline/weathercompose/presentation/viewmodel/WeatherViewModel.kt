@@ -1,15 +1,11 @@
 package br.com.raveline.weathercompose.presentation.viewmodel
 
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.raveline.weathercompose.data.model.WeatherListModel
 import br.com.raveline.weathercompose.data.repository.WeatherRepositoryImpl
 import br.com.raveline.weathercompose.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -26,7 +22,7 @@ class WeatherViewModel @Inject constructor(private val repositoryImpl: WeatherRe
 
     val weatherData = weatherMutableData.asStateFlow()
 
-    suspend fun getWeatherData(city: String = "Lisbon"):Resource<WeatherListModel>{
+    suspend fun getWeatherData(city: String = "Lisbon"): Resource<WeatherListModel> {
         return handleWeatherResponse(repositoryImpl.getWeather(city))
     }
 
@@ -34,7 +30,7 @@ class WeatherViewModel @Inject constructor(private val repositoryImpl: WeatherRe
         loadWeather()
     }
 
-    private fun loadWeather(city: String = "Belo Horizonte") {
+    private fun loadWeather(city: String = "Almada") {
         getWeather(city)
     }
 
@@ -51,7 +47,7 @@ class WeatherViewModel @Inject constructor(private val repositoryImpl: WeatherRe
         }
     }
 
-     private fun handleWeatherResponse(response: Response<WeatherListModel>): Resource<WeatherListModel> {
+    private fun handleWeatherResponse(response: Response<WeatherListModel>): Resource<WeatherListModel> {
         when {
             response.message().toString().contains("timeout") -> {
                 return Resource.Error("Timeout")

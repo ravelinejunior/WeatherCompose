@@ -100,7 +100,7 @@ fun MainContent(data: WeatherListModel) {
         Surface(
             modifier = Modifier
                 .padding(4.dp)
-                .size(200.dp),
+                .size(180.dp),
             shape = CircleShape,
             color = Color(0xFFFFAB00)
         ) {
@@ -111,7 +111,7 @@ fun MainContent(data: WeatherListModel) {
                 WeatherStateImage(imageUrl = imageUrl)
                 Text(
                     text = "${formatDecimals(data.list.first().temp.day)}º",
-                    style = MaterialTheme.typography.h4,
+                    style = MaterialTheme.typography.h5,
                     fontWeight = FontWeight.ExtraBold
                 )
                 Text(
@@ -131,7 +131,7 @@ fun MainContent(data: WeatherListModel) {
             text = stringResource(id = R.string.this_week_string),
             style = MaterialTheme.typography.subtitle1,
             fontWeight = FontWeight.ExtraBold,
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier.padding(4.dp)
         )
 
         Surface(modifier = Modifier

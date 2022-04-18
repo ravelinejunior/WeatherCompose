@@ -14,7 +14,6 @@ interface WeatherApi {
         @Query("q") query: String,
         @Query("units") units: String = "metric",
         @Query("appid") apiKey: String = GEN_API_KEY,
-        @Query("lang") language:String = "pt_br"
-
+        @Query("lang") language:String = "en"
         ): Response<WeatherListModel>
 }
