@@ -137,12 +137,12 @@ fun MainContent(data: WeatherListModel) {
         Surface(modifier = Modifier
             .fillMaxHeight()
             .fillMaxWidth(),
-            color = Color(0xF7D5D5D5),
+            color = Color(0xF7F1F1F1),
             shape = RoundedCornerShape(size = 16.dp)
             ) {
                 LazyColumn(
                     modifier = Modifier.padding(2.dp),
-                    contentPadding = PaddingValues(4.dp)
+                    contentPadding = PaddingValues(1.dp)
                 ){
                     items(items = data.list){ weather ->
 

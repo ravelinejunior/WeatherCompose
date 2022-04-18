@@ -23,9 +23,9 @@ fun WeatherDetailRow(weather: WeatherBody) {
 
     Surface(
         Modifier
-            .padding(8.dp)
+            .padding(2.dp)
             .fillMaxWidth(),
-        shape = CircleShape.copy(topEnd = CornerSize(8.dp), topStart = CornerSize(8.dp)),
+        shape = CircleShape.copy(topEnd = CornerSize(4.dp), bottomStart = CornerSize(4.dp)),
         color = Color.White
     ) {
 
