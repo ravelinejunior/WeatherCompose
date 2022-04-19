@@ -1,17 +1,22 @@
 package br.com.raveline.weathercompose.presentation.view
 
+import android.annotation.SuppressLint
+import android.app.Activity
+import android.widget.Toast
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.produceState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -23,23 +28,49 @@ import br.com.raveline.weathercompose.data.model.WeatherListModel
 import br.com.raveline.weathercompose.presentation.navigation.WeatherScreens
 import br.com.raveline.weathercompose.presentation.viewmodel.WeatherViewModel
 import br.com.raveline.weathercompose.utils.IMAGE_URL
-import br.com.raveline.weathercompose.utils.Resource
 import br.com.raveline.weathercompose.utils.formatDate
 import br.com.raveline.weathercompose.utils.formatDecimals
+import kotlinx.coroutines.launch
+import retrofit2.Response
 
+@SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun MainScreen(
-    navController: NavController, viewModel: WeatherViewModel
+    navController: NavController, viewModel: WeatherViewModel, city: String?
 ) {
+    val scope = rememberCoroutineScope()
 
-    val weatherListModel = viewModel.weatherData.collectAsState().value
-    when (weatherListModel.data) {
-        Resource.Loading(null).data -> {
+
+    val weatherState = produceState<Response<WeatherListModel>>(Response.success(null)) {
+        value = viewModel.getWeatherResponse(city.toString())
+    }
+
+    if (weatherState.value.isSuccessful) {
+        val weather = weatherState.value.body()
+        if (weather != null) {
+            MainScaffold(weather = weather, navController = navController)
+        } else {
             CircularProgressIndicator()
         }
-        else -> {
-            MainScaffold(weather = weatherListModel.data, navController = navController)
+    } else if (weatherState.value.code() == 404 || weatherState.value.code() != 200) {
+        val _weatherState = produceState<Response<WeatherListModel>>(Response.success(null)) {
+            value = viewModel.getWeatherResponse("Lisbon")
         }
+
+        if (_weatherState.value.isSuccessful) {
+            val weather = _weatherState.value.body()
+            if (weather != null) {
+                MainScaffold(weather = weather, navController = navController)
+            } else {
+                CircularProgressIndicator()
+            }
+        }
+
+
+    } else {
+        CircularProgressIndicator(
+            progress = 100f
+        )
     }
 
 }
@@ -53,30 +84,13 @@ fun MainScaffold(weather: WeatherListModel, navController: NavController) {
             navController = navController,
             elevation = 6.dp,
             onAddActionClicked = {
-                    navController.navigate(WeatherScreens.SearchScreen.name)
+                navController.navigate(WeatherScreens.SearchScreen.name)
             }
         )
     }) {
         MainContent(data = weather)
 
     }
-
-
-    /*  val weatherDataState = produceState<Resource<WeatherListModel>>(initialValue = Resource.Loading()){
-          value = viewModel.getWeatherData("Lisbon")
-      }
-
-      if (weatherDataState.value.data == Resource.Loading<WeatherListModel>().data){
-          CircularProgressIndicator()
-      }else if(weatherDataState.value.data != null){
-          val weather = weatherDataState.value.data
-          Text(text = weather?.list.toString())
-      }else{
-          CircularProgressIndicator(
-              progress = 100f
-          )
-      }
-  */
 
 
 }
@@ -138,22 +152,23 @@ fun MainContent(data: WeatherListModel) {
             modifier = Modifier.padding(4.dp)
         )
 
-        Surface(modifier = Modifier
-            .fillMaxHeight()
-            .fillMaxWidth(),
+        Surface(
+            modifier = Modifier
+                .fillMaxHeight()
+                .fillMaxWidth(),
             color = Color(0xF7F1F1F1),
             shape = RoundedCornerShape(size = 16.dp)
+        ) {
+            LazyColumn(
+                modifier = Modifier.padding(2.dp),
+                contentPadding = PaddingValues(1.dp)
             ) {
-                LazyColumn(
-                    modifier = Modifier.padding(2.dp),
-                    contentPadding = PaddingValues(1.dp)
-                ){
-                    items(items = data.list){ weather ->
+                items(items = data.list) { weather ->
 
-                        WeatherDetailRow(weather = weather)
+                    WeatherDetailRow(weather = weather)
 
-                    }
                 }
+            }
         }
 
     }

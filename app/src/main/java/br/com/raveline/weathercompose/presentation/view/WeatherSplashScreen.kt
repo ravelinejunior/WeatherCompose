@@ -21,6 +21,7 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -35,6 +36,7 @@ import kotlinx.coroutines.delay
 fun WeatherSplashScreen(
     navController: NavController
 ) {
+    val defaultCity = stringResource(id = R.string.default_city_string)
 
     val scale = remember {
         Animatable(0f)
@@ -47,7 +49,7 @@ fun WeatherSplashScreen(
                     OvershootInterpolator(4f).getInterpolation(it)
                 }
             )).run {
-            navController.navigate(WeatherScreens.MainScreen.name)
+            navController.navigate(WeatherScreens.MainScreen.name+"/$defaultCity")
         }
 
 

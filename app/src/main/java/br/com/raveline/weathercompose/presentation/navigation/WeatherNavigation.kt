@@ -2,9 +2,11 @@ package br.com.raveline.weathercompose.presentation.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import br.com.raveline.weathercompose.presentation.view.MainScreen
 import br.com.raveline.weathercompose.presentation.view.SearchScreen
 import br.com.raveline.weathercompose.presentation.view.WeatherSplashScreen
@@ -17,16 +19,29 @@ fun WeatherNavigation() {
         navController = navController,
         startDestination = WeatherScreens.SplashScreen.name
     ) {
-        composable(WeatherScreens.SplashScreen.name){
+
+        val mainRoute = WeatherScreens.MainScreen.name
+
+        composable(WeatherScreens.SplashScreen.name) {
             WeatherSplashScreen(navController = navController)
         }
 
-        composable(WeatherScreens.MainScreen.name){
-            val weatherViewModel = hiltViewModel<WeatherViewModel>()
-            MainScreen(navController = navController,viewModel = weatherViewModel)
+        composable("$mainRoute/{city}",
+            arguments = listOf(
+                navArgument(name = "city") {
+                    type = NavType.StringType
+                }
+            )
+        ) { navBack ->
+
+            navBack.arguments?.getString("city").let { city ->
+                val weatherViewModel = hiltViewModel<WeatherViewModel>()
+                MainScreen(navController = navController, viewModel = weatherViewModel,city = city)
+            }
+
         }
 
-        composable(WeatherScreens.SearchScreen.name){
+        composable(WeatherScreens.SearchScreen.name) {
             SearchScreen(navController = navController)
         }
     }

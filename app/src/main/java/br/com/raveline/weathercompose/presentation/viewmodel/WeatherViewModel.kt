@@ -26,15 +26,19 @@ class WeatherViewModel @Inject constructor(private val repositoryImpl: WeatherRe
         return handleWeatherResponse(repositoryImpl.getWeather(city))
     }
 
-    init {
-        loadWeather()
+    suspend fun getWeatherResponse(city: String = "Lisbon"):Response<WeatherListModel>{
+        return repositoryImpl.getWeather(city)
     }
 
-    private fun loadWeather(city: String = "Almada") {
+    init {
+       loadWeather()
+    }
+
+    private fun loadWeather(city: String = "Lisbon") {
         getWeather(city)
     }
 
-    private fun getWeather(city: String) {
+     private fun getWeather(city: String) {
         weatherMutableData.value = Resource.Loading()
         viewModelScope.launch {
             if (city.isEmpty()) return@launch

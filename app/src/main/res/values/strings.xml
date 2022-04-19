@@ -15,4 +15,6 @@
     <string name="this_week_string">This Week Predictions</string>
     <string name="search_title_string">Search</string>
     <string name="place_holder_new_york_string">Ex: New York</string>
+    <string name="city_params_string">city</string>
+    <string name="default_city_string">Braga</string>
 </resources>
