@@ -17,4 +17,5 @@
     <string name="place_holder_new_york_string">Ex: New York</string>
     <string name="city_params_string">city</string>
     <string name="default_city_string">Braga</string>
+    <string name="icon_general_string">Icon Content</string>
 </resources>

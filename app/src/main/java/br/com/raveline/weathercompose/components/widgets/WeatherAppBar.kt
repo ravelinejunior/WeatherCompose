@@ -1,13 +1,17 @@
 package br.com.raveline.weathercompose.components.widgets
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.rounded.MoreVert
-import androidx.compose.runtime.Composable
+import androidx.compose.material.icons.rounded.Search
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -19,6 +23,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import br.com.raveline.weathercompose.R
+import br.com.raveline.weathercompose.utils.aboutString
+import br.com.raveline.weathercompose.utils.favoriteString
+import br.com.raveline.weathercompose.utils.settingsString
 
 
 @Composable
@@ -32,12 +39,23 @@ fun WeatherAppBar(
     onAddActionClicked: () -> Unit = {},
     onButtonClicked: () -> Unit = {}
 ) {
+
+    val showDialog = remember {
+        mutableStateOf(false)
+    }
+
+    if (showDialog.value) {
+        ShowSettingDropDownMenu(showDialog = showDialog, navController = navController)
+    }
+
     TopAppBar(
         modifier = Modifier.padding(8.dp),
         title = {
-            Text(text = title, color = MaterialTheme.colors.onSecondary, style = TextStyle(
-                fontWeight = FontWeight.Bold, fontSize = 16.sp
-            ))
+            Text(
+                text = title, color = MaterialTheme.colors.onSecondary, style = TextStyle(
+                    fontWeight = FontWeight.Bold, fontSize = 16.sp
+                )
+            )
         },
         backgroundColor = backgroundColor,
         actions = {
@@ -50,7 +68,9 @@ fun WeatherAppBar(
                         contentDescription = stringResource(R.string.search_icon)
                     )
                 }
-                IconButton(onClick = { }) {
+                IconButton(onClick = {
+                    showDialog.value = true
+                }) {
                     Icon(
                         imageVector = Icons.Rounded.MoreVert,
                         contentDescription = stringResource(R.string.more_icon)
@@ -75,3 +95,75 @@ fun WeatherAppBar(
         elevation = elevation,
     )
 }
+
+@Composable
+fun ShowSettingDropDownMenu(showDialog: MutableState<Boolean>, navController: NavController) {
+    var isExpanded by remember {
+        mutableStateOf(true)
+    }
+
+    val dropItems = listOf(
+        aboutString, favoriteString, settingsString
+    )
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentSize(Alignment.TopEnd)
+            .absolutePadding(top = 48.dp, right = 20.dp)
+    ) {
+        DropdownMenu(
+            expanded = isExpanded, onDismissRequest = { isExpanded = false },
+            modifier = Modifier
+                .fillMaxWidth(0.4f)
+                .background(Color.White)
+        ) {
+            dropItems.forEach { item ->
+                DropdownMenuItem(onClick = {
+                    isExpanded = true
+                    showDialog.value = false
+                }) {
+                    Icon(
+                        imageVector = when (item) {
+                            aboutString -> Icons.Default.Info
+                            favoriteString -> Icons.Default.Favorite
+
+                            else -> Icons.Rounded.Search
+                        },
+
+                        contentDescription = stringResource(id = R.string.icon_general_string),
+                        tint = when (item) {
+                            aboutString -> Color.Gray
+                            favoriteString -> Color.Red
+
+                            else -> Color.DarkGray
+                        },
+                    )
+
+                    Text(
+                        text = item,
+                        modifier = Modifier
+                            .clickable {
+                                showDialog.value = false
+                            }
+                            .padding(horizontal = 16.dp),
+                        fontWeight = FontWeight.W700,
+                    )
+
+                }
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
