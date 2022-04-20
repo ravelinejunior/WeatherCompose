@@ -9,7 +9,7 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.rounded.MoreVert
-import androidx.compose.material.icons.rounded.Search
+import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import br.com.raveline.weathercompose.R
+import br.com.raveline.weathercompose.presentation.navigation.WeatherScreens
 import br.com.raveline.weathercompose.utils.aboutString
 import br.com.raveline.weathercompose.utils.favoriteString
 import br.com.raveline.weathercompose.utils.settingsString
@@ -128,7 +129,7 @@ fun ShowSettingDropDownMenu(showDialog: MutableState<Boolean>, navController: Na
                             aboutString -> Icons.Default.Info
                             favoriteString -> Icons.Default.Favorite
 
-                            else -> Icons.Rounded.Search
+                            else -> Icons.Rounded.Settings
                         },
 
                         contentDescription = stringResource(id = R.string.icon_general_string),
@@ -144,7 +145,14 @@ fun ShowSettingDropDownMenu(showDialog: MutableState<Boolean>, navController: Na
                         text = item,
                         modifier = Modifier
                             .clickable {
-                                showDialog.value = false
+                                navController.navigate(
+                                    when (item) {
+                                        aboutString -> WeatherScreens.AboutScreen.name
+                                        favoriteString -> WeatherScreens.FavoriteScreen.name
+
+                                        else -> WeatherScreens.SettingsScreen.name
+                                    },
+                                )
                             }
                             .padding(horizontal = 16.dp),
                         fontWeight = FontWeight.W700,

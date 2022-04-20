@@ -7,9 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import br.com.raveline.weathercompose.presentation.view.MainScreen
-import br.com.raveline.weathercompose.presentation.view.SearchScreen
-import br.com.raveline.weathercompose.presentation.view.WeatherSplashScreen
+import br.com.raveline.weathercompose.presentation.view.*
 import br.com.raveline.weathercompose.presentation.viewmodel.WeatherViewModel
 
 @Composable
@@ -36,13 +34,25 @@ fun WeatherNavigation() {
 
             navBack.arguments?.getString("city").let { city ->
                 val weatherViewModel = hiltViewModel<WeatherViewModel>()
-                MainScreen(navController = navController, viewModel = weatherViewModel,city = city)
+                MainScreen(navController = navController, viewModel = weatherViewModel, city = city)
             }
 
         }
 
         composable(WeatherScreens.SearchScreen.name) {
             SearchScreen(navController = navController)
+        }
+
+        composable(WeatherScreens.AboutScreen.name) {
+            AboutScreen(navController = navController)
+        }
+
+        composable(WeatherScreens.FavoriteScreen.name) {
+            FavoriteScreen(navController = navController)
+        }
+
+        composable(WeatherScreens.SettingsScreen.name) {
+            SettingsScreen(navController = navController)
         }
     }
 }

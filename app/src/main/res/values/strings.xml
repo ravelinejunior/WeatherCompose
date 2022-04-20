@@ -18,4 +18,7 @@
     <string name="city_params_string">city</string>
     <string name="default_city_string">Braga</string>
     <string name="icon_general_string">Icon Content</string>
+    <string name="about_title_string">About</string>
+    <string name="about_title_message_string">Weather App V1.0</string>
+    <string name="about_app_description_string">Weather Api V1 by Junior Raveline</string>
 </resources>
