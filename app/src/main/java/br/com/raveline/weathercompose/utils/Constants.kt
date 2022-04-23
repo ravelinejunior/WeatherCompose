@@ -17,3 +17,9 @@ const val aboutString = "About"
 const val settingsString = "Settings"
 const val favoriteString = "Favorite"
 
+
+//Database constants
+const val favoriteDatabaseName = "FAVORITE_PLACE_DATABASE"
+const val favoriteTableName = "FAVORITE_PLACE_TABLE"
+
+
