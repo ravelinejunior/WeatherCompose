@@ -5,7 +5,7 @@ import br.com.raveline.weathercompose.data.database.entity.FavoriteEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-sealed interface FavoriteDao{
+sealed interface FavoriteDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertFavoritePlace(favoriteEntity: FavoriteEntity)
 
@@ -16,7 +16,10 @@ sealed interface FavoriteDao{
     suspend fun updateFavoritePlace(favoriteEntity: FavoriteEntity)
 
     @Query("SELECT * FROM FAVORITE_PLACE_TABLE ORDER BY ID DESC")
-    fun getAllFavorites():Flow<List<FavoriteEntity>>
+    fun getAllFavorites(): Flow<List<FavoriteEntity>>
+
+    @Query("SELECT * FROM FAVORITE_PLACE_TABLE WHERE cityName LIKE '%' || :cityName || '%' ORDER BY cityName")
+    fun getFavoritePlaceByName(cityName: String): Flow<List<FavoriteEntity>>
 
     @Query("DELETE FROM FAVORITE_PLACE_TABLE")
     suspend fun deleteAllPlaces()

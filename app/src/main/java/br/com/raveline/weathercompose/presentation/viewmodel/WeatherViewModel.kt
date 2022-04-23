@@ -3,7 +3,7 @@ package br.com.raveline.weathercompose.presentation.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.raveline.weathercompose.data.model.WeatherListModel
-import br.com.raveline.weathercompose.data.repository.WeatherRepositoryImpl
+import br.com.raveline.weathercompose.data.repository.implementations.WeatherRepositoryImpl
 import br.com.raveline.weathercompose.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,19 +26,19 @@ class WeatherViewModel @Inject constructor(private val repositoryImpl: WeatherRe
         return handleWeatherResponse(repositoryImpl.getWeather(city))
     }
 
-    suspend fun getWeatherResponse(city: String = "Lisbon"):Response<WeatherListModel>{
+    suspend fun getWeatherResponse(city: String = "Lisbon"): Response<WeatherListModel> {
         return repositoryImpl.getWeather(city)
     }
 
     init {
-       loadWeather()
+        loadWeather()
     }
 
     private fun loadWeather(city: String = "Lisbon") {
         getWeather(city)
     }
 
-     private fun getWeather(city: String) {
+    private fun getWeather(city: String) {
         weatherMutableData.value = Resource.Loading()
         viewModelScope.launch {
             if (city.isEmpty()) return@launch
