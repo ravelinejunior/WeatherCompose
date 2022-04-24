@@ -18,6 +18,7 @@ data class FavoriteEntity(
     val countryName: String,
     val population: Int,
     val icon: String,
-    val description: String
+    val description: String,
+    val cityId: Int
 
 )

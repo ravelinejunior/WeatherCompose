@@ -81,6 +81,7 @@ fun MainScaffold(weather: WeatherListModel, navController: NavController) {
     Scaffold(topBar = {
         WeatherAppBar(
             title = "${weather.city.name},${weather.city.country}",
+            weather = weather,
             navController = navController,
             elevation = 6.dp,
             onAddActionClicked = {
@@ -89,7 +90,6 @@ fun MainScaffold(weather: WeatherListModel, navController: NavController) {
         )
     }) {
         MainContent(data = weather)
-
     }
 
 

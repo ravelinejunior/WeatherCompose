@@ -5,7 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.raveline.weathercompose.data.database.entity.FavoriteEntity
 import br.com.raveline.weathercompose.data.repository.implementations.FavoriteRepositoryImpl
-import kotlinx.coroutines.Dispatchers
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -14,6 +15,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
+
+@HiltViewModel
 class FavoriteViewModel @Inject constructor(private val favoriteRepository: FavoriteRepositoryImpl) :
     ViewModel() {
 
@@ -27,7 +30,7 @@ class FavoriteViewModel @Inject constructor(private val favoriteRepository: Favo
 
     private fun getFavorites() {
         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
+            withContext(IO) {
                 favoriteRepository.getAllFavoritePlaces().distinctUntilChanged()
                     .collectLatest { favorites ->
                         if (favorites.isNotEmpty()) {
@@ -40,8 +43,22 @@ class FavoriteViewModel @Inject constructor(private val favoriteRepository: Favo
         }
     }
 
-    fun insertFavorite(favoriteEntity: FavoriteEntity) = viewModelScope.launch {
-        favoriteRepository.insertFavoritePlace(favoriteEntity = favoriteEntity)
+    fun insertFavorite(favoriteEntity: FavoriteEntity) = viewModelScope.launch(IO) {
+
+        if (favList.value.isEmpty()) {
+            favoriteRepository.insertFavoritePlace(favoriteEntity)
+        } else {
+            val findElement = favList.value.find { favorite ->
+                favorite.cityId == favoriteEntity.cityId
+            }
+
+            if (findElement == null) {
+                favoriteRepository.insertFavoritePlace(favoriteEntity)
+            }else{
+                Log.i("getFavorites", "Place already is on database!")
+            }
+        }
+
     }
 
     fun updateFavorite(favoriteEntity: FavoriteEntity) = viewModelScope.launch {
