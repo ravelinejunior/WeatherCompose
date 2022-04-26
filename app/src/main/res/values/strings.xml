@@ -22,4 +22,5 @@
     <string name="about_title_message_string">Weather App V1.0</string>
     <string name="about_app_description_string">Weather Api V1 by Junior Raveline</string>
     <string name="something_went_wrong_msg">Something went wrong!</string>
+    <string name="favorite_title_bar_string">Favorite Places</string>
 </resources>

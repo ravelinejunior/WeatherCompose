@@ -9,6 +9,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.rounded.FavoriteBorder
 import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material.icons.rounded.Settings
@@ -58,6 +59,8 @@ fun WeatherAppBar(
         ShowSettingDropDownMenu(showDialog = showDialog, navController = navController)
     }
 
+    favoriteViewModel.getFavorites(weather)
+
     TopAppBar(
         modifier = Modifier.padding(8.dp),
         title = {
@@ -104,7 +107,7 @@ fun WeatherAppBar(
             if (isMainScreen) {
 
                 Icon(
-                    imageVector = Icons.Rounded.FavoriteBorder,
+                    imageVector = if (favoriteViewModel.isFavorite.value) Icons.Rounded.Favorite else Icons.Rounded.FavoriteBorder,
                     contentDescription = stringResource(
                         id = R.string.icon_general_string,
                     ),
